@@ -1,167 +1,159 @@
-/* Task Tab Applet Stylesheet */
-
-/* Header styling */
-.task-header {
-  font-weight: bold;
-  font-size: 14px;
-  color: #ededed;
-  text-align: center;
-  padding: 8px 16px;
-}
-
-/* Footer styling */
-.task-footer {
-  font-size: 11px;
-  color: #18df33;
-  text-align: center;
-  padding: 4px 16px;
-  font-style: italic;
-}
+/* QuickList Applet Stylesheet - Fixed Version */
 
 /* Input section styling */
 .task-input-box {
-  display: flex;
-  padding: 8px;
-  gap: 8px;
+  padding: 4px 0px;
+  border-radius: 0px !important;
 }
 
 .task-entry {
-  border-radius: 6px;
-  border: 1px solid #bdc3c7;
   padding: 6px 10px;
   font-size: 13px;
-  min-width: 240px;
+  min-width: 372px;
+  max-width: 372px;
+  min-height: 22px;
   margin-right: 8px;
-  background-color: #4c4c4c;
-  color: #ededed;
+  background-color: #2a2a2a !important;
+  color: #ededed !important;
+  border: 1px solid #505050 !important;
+  border-radius: 3px !important;
 }
 
 .task-entry:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  border-color: #3498db !important;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3) !important;
+  background-color: #333333 !important;
 }
 
 .task-add-button {
-  border-radius: 4px;
-  border: 1px solid #27ae60;
-  background-color: #333333;
-  padding: 4px;
-  min-width: 20px;
-  color: #27ae60;
+  border-radius: 3px !important;
+  border: 1px solid #5fc16c !important;
+  background-color: #333333 !important;
+  padding: 4px !important;
+  min-width: 24px;
+  color: #5fc16c !important;
 }
 
+.task-add-button:focus,
 .task-add-button:hover {
-  background-color: #222222;
-  border-color: #229954;
+  background-color: #404040 !important;
+  border-color: #6fd477 !important;
 }
 
 .task-add-button:active {
-  background-color: #1e8449;
+  background-color: #205a27 !important;
 }
 
 /* Task item styling */
 .task-item-box {
-  display: flex;
-  padding: 6px 12px;
+  display: grid;
   justify-content: space-between;
+  min-width: 432px;
+  max-width: 432px;
+  overflow: hidden;
   min-height: 32px;
+  border-radius: 0px !important;
 }
 
 /* Checkbox styling */
 .task-checkbox {
-  border-radius: 4px;
-  border: 1px solid #bdc3c7;
-  background-color: #4c4c4c;
-  padding: 4px;
-  min-width: 20px;
-  min-height: 20px;
+  border-radius: 3px !important;
+  background-color: transparent !important;
+  padding: 2px !important;
+  max-height: 16px;
+  max-width: 24px;
+  min-width: 24px;
 }
 
 .task-checkbox.task-pending {
-  border-color: #95a5a6;
+  border-color: #95a5a6 !important;
 }
 
 .task-checkbox.task-completed {
-  background-color: #27ae60;
-  border-color: #27ae60;
+  background-color: transparent !important;
+  border-color: #5fc16c !important;
 }
 
+.task-checkbox:focus,
 .task-checkbox:hover {
-  border-color: #3498db;
-  background-color: #ecf0f1;
+  background-color: #404040 !important;
 }
 
+.task-checkbox.task-completed:focus,
 .task-checkbox.task-completed:hover {
-  background-color: #229954;
+  background-color: #2d5a32 !important;
 }
 
 .task-checkbox-icon {
-  color: #ededed;
+  color: #ededed !important;
 }
 
 .task-checkbox.task-completed .task-checkbox-icon {
-  color: white;
+  color: #5fc16c !important;
 }
 
 /* Task label styling */
 .task-label {
   font-size: 13px;
-  color: #ededed;
-  padding-left: 4px;
+  color: #ededed !important;
+  padding-left: 8px;
 }
 
 .task-label.task-completed-text {
-  color: #7f8c8d;
+  color: #7f8c8d !important;
   text-decoration: line-through;
 }
 
 /* Delete button styling */
 .task-delete-button {
-  border-radius: 4px;
-  border: 1px solid transparent;
-  background-color: transparent;
-  padding: 4px;
+  border-radius: 3px !important;
+  border: 1px solid transparent !important;
+  background-color: transparent !important;
+  padding: 4px !important;
   min-width: 20px;
   min-height: 20px;
   opacity: 0.6;
 }
 
+.task-delete-button:focus,
 .task-delete-button:hover {
-  opacity: 1;
-  background-color: #e74c3c;
-  border-color: #c0392b;
+  opacity: 1 !important;
+  background-color: #912e23 !important;
+  border-color: #6e140a !important;
 }
 
 .task-delete-icon {
-  color: #e74c3c;
+  color: #e74c3c !important;
 }
 
+.task-delete-button:focus .task-delete-icon,
 .task-delete-button:hover .task-delete-icon {
-  color: white;
+  color: white !important;
 }
 
-/* Menu item hover effects */
-.popup-menu-item.task-item:hover {
-  background-color: #f8f9fa;
+/* Menu item hover effects - Use :focus instead of :hover for Cinnamon */
+.popup-menu-item:focus {
+  background-color: #333333 !important;
+  border-radius: 0px !important;
 }
 
 /* Scrollable menu if too many tasks */
 .popup-menu-box {
   max-height: 400px;
+  border-radius: 0px !important;
 }
 
 /* Custom menu styling */
 .popup-menu {
-  min-width: 280px;
-  border-radius: 8px;
-  border: 1px solid #bdc3c7;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #222222 !important;
+  color: #ededed !important;
+  border-radius: 0px !important;
 }
 
 /* Separator styling */
 .popup-separator-menu-item {
-  height: 1px;
-  margin: 4px 8px;
+  height: 2px;
+  border-radius: 0px !important;
 }
 
 /* Animation for completed tasks */
@@ -169,18 +161,23 @@
   transition: all 0.3s ease;
 }
 
-/* Responsive design for different panel sizes */
-@media (max-width: 300px) {
-  .task-input-box {
-    padding: 6px 8px;
-  }
+/* Force dark background for menu items - Remove conflicting border-radius */
+.popup-menu-item,
+.task-item-box {
+  background-color: #222222 !important;
+  color: #ededed !important;
+  border-radius: 0px !important;
+}
 
-  .task-entry {
-    min-width: 150px;
-    font-size: 12px;
-  }
+/* Override any theme-imposed border-radius */
+* {
+  border-radius: 0px !important;
+}
 
-  .popup-menu {
-    min-width: 220px;
-  }
+/* Specific overrides for elements that should have slight rounding */
+.task-entry,
+.task-add-button,
+.task-checkbox,
+.task-delete-button {
+  border-radius: 3px !important;
 }

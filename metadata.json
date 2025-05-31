@@ -1,0 +1,14 @@
+{
+    "uuid": "task-tab-applet@cinnamon-applet",
+    "name": "Task Tab",
+    "description": "A simple and elegant to-do list applet that mimics TaskTab for Mac. Click to add, check off, and manage your tasks directly from the panel.",
+    "version": "1.0.0",
+    "author": "TaskTab Applet Developer",
+    "url": "",
+    "website": "",
+    "cinnamon-version": ["6.0", "6.2"],
+    "icon": "checkbox-checked-symbolic",
+    "max-instances": 3,
+    "multiversion": true,
+    "last-edited": "2025-05-31"
+}

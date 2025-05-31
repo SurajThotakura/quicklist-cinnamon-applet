@@ -17,7 +17,7 @@ TaskItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
   _init: function (applet, task) {
-    PopupMenu.PopupBaseMenuItem.prototype._init.call(this, { reactive: false });
+    PopupMenu.PopupBaseMenuItem.prototype._init.call(this);
 
     this.applet = applet;
     this.task = task;
@@ -289,51 +289,6 @@ TaskTabApplet.prototype = {
     }
   },
 
-  _addNewTaskItem: function (newTask) {
-    // If this is the first task, add separators
-    if (this.tasks.length === 1) {
-      this.firstSeparator = new PopupMenu.PopupSeparatorMenuItem();
-      this.menu.addMenuItem(this.firstSeparator);
-    }
-
-    // Create and add the new task item at the beginning of task list
-    let taskItem = new TaskItem(this, newTask);
-
-    // Find position after the first separator
-    let insertPosition = -1;
-    let menuItems = this.menu._getMenuItems();
-    for (let i = 0; i < menuItems.length; i++) {
-      if (menuItems[i] === this.firstSeparator) {
-        insertPosition = i + 1;
-        break;
-      }
-    }
-
-    if (insertPosition >= 0) {
-      this.menu.addMenuItem(taskItem, insertPosition);
-    } else {
-      this.menu.addMenuItem(taskItem);
-    }
-
-    this.taskItems.set(newTask.id, taskItem);
-
-    // Add or update footer
-    if (this.tasks.length === 1) {
-      this.secondSeparator = new PopupMenu.PopupSeparatorMenuItem();
-      this.menu.addMenuItem(this.secondSeparator);
-
-      let completedCount = this.tasks.filter((task) => task.completed).length;
-      let footerText = `${completedCount}/${this.tasks.length} completed`;
-      this.footerItem = new PopupMenu.PopupMenuItem(footerText, {
-        reactive: false,
-      });
-      this.footerItem.actor.add_style_class_name("task-footer");
-      this.menu.addMenuItem(this.footerItem);
-    } else {
-      this._updateFooter();
-    }
-  },
-
   _reorderTasks: function () {
     // Only reorder if needed to avoid unnecessary rebuilds
     // For now, we'll keep the current order and only rebuild when tasks are added/removed
@@ -358,20 +313,25 @@ TaskTabApplet.prototype = {
     // Clear input
     this.newTaskEntry.set_text("");
 
-    // Add the new task incrementally
-    this._addNewTaskItem(newTask);
-    this._updateIcon();
+    // Store menu open state and rebuild
+    let wasOpen = this.menu.isOpen;
+    this._buildMenu();
 
-    // Refocus the input field
-    Mainloop.timeout_add(
-      50,
-      Lang.bind(this, function () {
-        if (this.newTaskEntry) {
-          this.newTaskEntry.grab_key_focus();
-        }
-        return false;
-      })
-    );
+    // Reopen menu and focus input if it was open
+    if (wasOpen) {
+      Mainloop.timeout_add(
+        50,
+        Lang.bind(this, function () {
+          this.menu.open();
+          if (this.newTaskEntry) {
+            this.newTaskEntry.grab_key_focus();
+          }
+          return false;
+        })
+      );
+    }
+
+    this._updateIcon();
   },
 
   _addNewTaskItem: function (newTask) {
@@ -429,45 +389,26 @@ TaskTabApplet.prototype = {
     this.tasks = this.tasks.filter((task) => task.id !== taskId);
     this.saveTasks();
 
-    // Remove the menu item
-    let taskItem = this.taskItems.get(taskId);
-    if (taskItem) {
-      this.menu.removeMenuItem(taskItem);
-      this.taskItems.delete(taskId);
-    }
+    // Rebuild menu to reflect changes
+    // Store menu open state
+    let wasOpen = this.menu.isOpen;
+    this._buildMenu();
 
-    // Handle empty task list
-    if (this.tasks.length === 0) {
-      // Remove separators and footer
-      if (this.firstSeparator) {
-        this.menu.removeMenuItem(this.firstSeparator);
-        this.firstSeparator = null;
-      }
-      if (this.secondSeparator) {
-        this.menu.removeMenuItem(this.secondSeparator);
-        this.secondSeparator = null;
-      }
-      if (this.footerItem) {
-        this.menu.removeMenuItem(this.footerItem);
-        this.footerItem = null;
-      }
-    } else {
-      // Just update the footer
-      this._updateFooter();
+    // Reopen menu if it was open
+    if (wasOpen) {
+      Mainloop.timeout_add(
+        50,
+        Lang.bind(this, function () {
+          this.menu.open();
+          if (this.newTaskEntry) {
+            this.newTaskEntry.grab_key_focus();
+          }
+          return false;
+        })
+      );
     }
 
     this._updateIcon();
-
-    // Refocus input field
-    Mainloop.timeout_add(
-      50,
-      Lang.bind(this, function () {
-        if (this.newTaskEntry) {
-          this.newTaskEntry.grab_key_focus();
-        }
-        return false;
-      })
-    );
   },
 
   loadTasks: function () {
